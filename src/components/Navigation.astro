@@ -1,0 +1,44 @@
+---
+const links = [
+  {
+    title: "Home",
+    url: "/",
+  },
+  {
+    title: "About",
+    url: "/about",
+  },
+  {
+    title: "Blog",
+    url: "/blog",
+  },
+];
+
+export interface Props {
+  activeUrl?: string;
+}
+
+const { activeUrl } = Astro.props;
+---
+
+<style>
+  .nav-link {
+    color: #000;
+    text-decoration: none;
+    padding: 0.25rem;
+  }
+
+  .nav-link__active {
+    text-decoration: underline;
+  }
+</style>
+{
+  links.map((link) => (
+    <a
+      class={`nav-link ${activeUrl === link.url ? "nav-link__active" : ""}`}
+      href={link.url}
+    >
+      {link.title}
+    </a>
+  ))
+}
