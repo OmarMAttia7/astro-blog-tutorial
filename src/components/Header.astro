@@ -1,0 +1,15 @@
+---
+import Navigation from "./Navigation.astro";
+
+interface Props {
+  activeUrl: string;
+}
+
+const { activeUrl } = Astro.props;
+---
+
+<header>
+  <nav>
+    <Navigation {activeUrl} />
+  </nav>
+</header>

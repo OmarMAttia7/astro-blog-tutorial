@@ -22,23 +22,19 @@ const { activeUrl } = Astro.props;
 ---
 
 <style>
-  .nav-link {
-    color: #000;
-    text-decoration: none;
-    padding: 0.25rem;
-  }
-
   .nav-link__active {
     text-decoration: underline;
   }
 </style>
-{
-  links.map((link) => (
-    <a
-      class={`nav-link ${activeUrl === link.url ? "nav-link__active" : ""}`}
-      href={link.url}
-    >
-      {link.title}
-    </a>
-  ))
-}
+<div class="nav-links">
+  {
+    links.map((link) => (
+      <a
+        class={`nav-link ${activeUrl === link.url ? "nav-link__active" : ""}`}
+        href={link.url}
+      >
+        {link.title}
+      </a>
+    ))
+  }
+</div>
