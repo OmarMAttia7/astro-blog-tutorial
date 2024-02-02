@@ -1,0 +1,48 @@
+---
+import type {
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+  GetStaticPaths,
+} from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const getStaticPaths = (async () => {
+  const allPosts = await Astro.glob("../posts/*.md");
+  const tags = [
+    "astro",
+    "successes",
+    "community",
+    "blogging",
+    "setbacks",
+    "learning in public",
+  ];
+
+  return tags.map((tag) => ({
+    params: {
+      tag,
+    },
+    props: {
+      posts: allPosts,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tag } = Astro.params as InferGetStaticParamsType<typeof getStaticPaths>;
+const { posts } = Astro.props as InferGetStaticPropsType<typeof getStaticPaths>;
+const filteredPosts = posts.filter((post) =>
+  post.frontmatter.tags?.includes(tag),
+);
+---
+
+<BaseLayout activeUrl="/tags" pageTitle={tag}>
+  <p>Posts tagged with {tag}</p>
+  <ul>
+    {
+      filteredPosts.map((post) => (
+        <li>
+          <a href={post.url}>{post.frontmatter.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
