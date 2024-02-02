@@ -1,21 +1,23 @@
 ---
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import type {
   InferGetStaticParamsType,
   InferGetStaticPropsType,
   GetStaticPaths,
+  MarkdownInstance,
 } from "astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const getStaticPaths = (async () => {
-  const allPosts = await Astro.glob("../posts/*.md");
-  const tags = [
-    "astro",
-    "successes",
-    "community",
-    "blogging",
-    "setbacks",
-    "learning in public",
-  ];
+export const getStaticPaths = (async () => {
+  const allPosts: MarkdownInstance<{
+    title: string;
+    tags: string[];
+  }>[] = await Astro.glob<{
+    title: string;
+    tags: string[];
+  }>("../posts/*.md");
+  const tags = Array.from(
+    new Set(allPosts.flatMap((post) => post.frontmatter.tags)),
+  );
 
   return tags.map((tag) => ({
     params: {
